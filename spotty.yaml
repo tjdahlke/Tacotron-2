@@ -7,13 +7,19 @@ project:
         - '*/__pycache__/*'
         - training_data/*
 
-container:
-  projectDir: /workspace/project
-  file: docker/Dockerfile.spotty
-  ports: [6006, 8888]
-  volumeMounts:
-    - name: workspace
-      mountPath: /workspace
+containers:
+  - projectDir: /workspace/project
+    file: docker/Dockerfile.spotty
+    ports:
+      # TensorBoard
+      - containerPort: 6006
+        hostPort: 6006
+      # Jupyter
+      - containerPort: 8888
+        hostPort: 8888
+    volumeMounts:
+      - name: workspace
+        mountPath: /workspace
 
 instances:
   - name: i1
